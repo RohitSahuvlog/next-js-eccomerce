@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Title from "@/components/Title";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
 import styled from "styled-components";
 import WhiteBox from "@/components/WhiteBox";
 import ProductImages from "@/components/ProductImages";
@@ -20,17 +20,37 @@ const ColWrapper = styled.div`
   gap: 40px;
   margin: 40px 0;
 `;
+
 const PriceRow = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
 `;
+
 const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-export default function ProductPage({ product }) {
+export default function ProductPage() {
+  const [product, setProduct] = useState(null);
   const { addProduct } = useContext(CartContext);
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    if (id) {
+      async function fetchProduct() {
+        console.log('Fetching product with id:', id);
+        const response = await fetch(`/api/products/${id}`);
+        const data = await response.json();
+        setProduct(data);
+      }
+      fetchProduct();
+    }
+  }, [id]);
+
+  if (!product) return <p>Loading...</p>;
+
   return (
     <>
       <Header />
@@ -57,15 +77,4 @@ export default function ProductPage({ product }) {
       </Center>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const { id } = context.query;
-  const product = await Product.findById(id);
-  return {
-    props: {
-      product: JSON.parse(JSON.stringify(product)),
-    }
-  }
 }
