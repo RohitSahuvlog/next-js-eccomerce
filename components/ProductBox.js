@@ -56,36 +56,24 @@ const Price = styled.div`
   }
 `;
 
-export default function ProductBox({ _id }) {
-  const [product, setProduct] = useState(null);
+export default function ProductBox({ product }) {
   const { addProduct } = useContext(CartContext);
-  const url = '/product/' + _id;
-
-  useEffect(() => {
-    async function fetchProduct() {
-      const response = await fetch(`/api/products/${_id}`);
-      const data = await response.json();
-      setProduct(data);
-    }
-    fetchProduct();
-  }, [_id]);
-
-  if (!product) return <p>Loading...</p>;
+  const url = '/product/' + product?._id;
 
   return (
     <ProductWrapper>
       <WhiteBox href={url}>
         <div>
-          <img src={product.images?.[0]} alt="" />
+          <img src={product?.images?.[0]} alt="" />
         </div>
       </WhiteBox>
       <ProductInfoBox>
-        <Title href={url}>{product.title}</Title>
+        <Title href={url}>{product?.title}</Title>
         <PriceRow>
           <Price>
-            ${product.price}
+            ${product?.price}
           </Price>
-          <Button block onClick={() => addProduct(product._id)} primary outline>
+          <Button block onClick={() => addProduct(product?._id)} primary outline>
             Add to cart
           </Button>
         </PriceRow>
