@@ -15,7 +15,7 @@ export default function HomePage() {
         }
 
         async function fetchNewProducts() {
-            const response = await fetch('/api/newProducts');
+            const response = await fetch('/api/products');
             const data = await response.json();
             setNewProducts(data);
         }
