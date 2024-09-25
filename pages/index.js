@@ -9,7 +9,7 @@ export default function HomePage() {
 
     useEffect(() => {
         async function fetchFeaturedProduct() {
-            const response = await fetch('/api/featuredProduct');
+            const response = await fetch('/api/featuredproduct');
             const data = await response.json();
             setFeaturedProduct(data);
         }
