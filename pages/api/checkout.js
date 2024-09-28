@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   await mongooseConnect();
   const productsIds = cartProducts;
   const uniqueIds = [...new Set(productsIds)];
-  const productsInfos = await product?.find({ _id: uniqueIds });
+  const productsInfos = await Product?.find({ _id: uniqueIds });
 
   let line_items = [];
   for (const productId of uniqueIds) {

@@ -13,6 +13,8 @@ export default async function handler(req, res) {
     }
 
     try {
+        console.log("Connecting to database...");
+        console.log("MONGO_URI:", process.env.MONGODB_URI);
         await mongooseConnect();
 
         const product = await Product.findById(id);
@@ -23,6 +25,8 @@ export default async function handler(req, res) {
 
         res.status(200).json(product);
     } catch (error) {
+        console.log("fail to database...");
+        console.log("MONGO_URI:", process.env.MONGODB_URI);
         console.error("Error fetching product:", error); // Log error for debugging
         res.status(500).json({ message: 'Internal server error' });
     }
