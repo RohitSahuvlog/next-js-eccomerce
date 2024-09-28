@@ -4,6 +4,7 @@ import CartIcon from "@/components/icons/CartIcon";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "@/components/CartContext";
+import { toast } from "react-toastify"
 
 const ProductWrapper = styled.div``;
 
@@ -60,6 +61,12 @@ export default function ProductBox({ product }) {
   const { addProduct } = useContext(CartContext);
   const url = '/product/' + product?._id;
 
+  // Function to handle adding product and showing notification
+  const handleAddToCart = (productId) => {
+    addProduct(productId);
+    toast.success("Product added to cart!"); // Show success toast
+  };
+
   return (
     <ProductWrapper>
       <WhiteBox href={url}>
@@ -73,7 +80,7 @@ export default function ProductBox({ product }) {
           <Price>
             ${product?.price}
           </Price>
-          <Button block onClick={() => addProduct(product?._id)} primary outline>
+          <Button block onClick={() => handleAddToCart(product?._id)} primary outline>
             Add to cart
           </Button>
         </PriceRow>

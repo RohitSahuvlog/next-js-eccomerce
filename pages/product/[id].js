@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
+import { toast } from "react-toastify";
 
 const ColWrapper = styled.div`
   display: grid;
@@ -49,7 +50,11 @@ export default function ProductPage() {
     }
   }, [id]);
 
-  if (!product) return <p>Loading...</p>;
+  const handleAddToCart = (productId) => {
+    addProduct(productId);
+    toast.success("Product added to cart!"); // Show success toast
+  };
+
 
   return (
     <>
@@ -67,7 +72,7 @@ export default function ProductPage() {
                 <Price>${product?.price}</Price>
               </div>
               <div>
-                <Button primary onClick={() => addProduct(product?._id)}>
+                <Button primary onClick={() => handleAddToCart(product?._id)}>
                   <CartIcon />Add to cart
                 </Button>
               </div>
