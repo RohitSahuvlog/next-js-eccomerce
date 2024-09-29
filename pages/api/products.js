@@ -3,7 +3,6 @@ import { Product } from "@/models/Product";
 
 export default async function handler(req, res) {
     await mongooseConnect();
-
     if (req.method === 'GET') {
         if (req.query?.id) {
             res.status(200).send(await Product.findOne({ _id: req.query.id }));
