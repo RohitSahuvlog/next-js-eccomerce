@@ -81,9 +81,9 @@ export default function CartPage() {
 
     async function fetchProducts() {
       try {
-        const response = await axios.post('/api/cart', {
-          ids: cartProducts
-        });
+        const response = await axios.post('/api/cart', new URLSearchParams({
+          ids: JSON.stringify(cartProducts)
+        }));
         setProducts(response.data);
       } catch (error) {
         toast.error('Error fetching products');
