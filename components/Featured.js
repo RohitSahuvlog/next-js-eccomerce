@@ -61,6 +61,7 @@ export default function Featured({ product }) {
   function addFeaturedToCart() {
     addProduct(product?._id);
   }
+  console.log(product, "Featured product");
   return (
     <Bg>
       <Center>
