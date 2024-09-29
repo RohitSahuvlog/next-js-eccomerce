@@ -7,6 +7,7 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
+import { toast } from "react-toastify";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -77,15 +78,23 @@ export default function CartPage() {
   const [country, setCountry] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   useEffect(() => {
-    async function fetchProducts() {
-      const response = await axios.post('/api/cart', {
-        ids: cartProducts
-      });
-      setProducts(response.data);
-    }
-    fetchProducts();
 
+    async function fetchProducts() {
+      try {
+        const response = await axios.post('/api/cart', {
+          ids: cartProducts
+        });
+        setProducts(response.data);
+      } catch (error) {
+        toast.error('Error fetching products');
+      }
+    }
+    if (cartProducts.length > 0) {
+      fetchProducts();
+    }
   }, [cartProducts]);
+
+
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
