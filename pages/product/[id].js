@@ -42,7 +42,7 @@ export default function ProductPage() {
     if (id) {
       async function fetchProduct() {
         console.log('Fetching product with id:', id);
-        const response = await fetch(`/api/product/${id}`);
+        const response = await fetch(`/api/product/?id=${id}`);
         const data = await response.json();
         setProduct(data);
       }
