@@ -77,14 +77,14 @@ export default function CartPage() {
   const [country, setCountry] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   useEffect(() => {
-    if (cartProducts.length > 0) {
-      axios.post('/api/cart', { ids: cartProducts })
-        .then(response => {
-          setProducts(response.data);
-        })
-    } else {
-      setProducts([]);
+    async function fetchProducts() {
+      const response = await axios.post('/api/cart', {
+        ids: cartProducts
+      });
+      setProducts(response.data);
     }
+    fetchProducts();
+
   }, [cartProducts]);
   useEffect(() => {
     if (typeof window === 'undefined') {
